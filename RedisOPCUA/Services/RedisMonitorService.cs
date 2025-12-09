@@ -1,13 +1,7 @@
-﻿using IniParser;
-using IniParser.Model;
+﻿
 using RedisOPCUA.Hubs;
 using Microsoft.AspNetCore.SignalR;
-using Microsoft.Extensions.Hosting;
 using StackExchange.Redis;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using Microsoft.Data.Sqlite;
 using RedisOPCUA.Utils;
 
@@ -30,16 +24,12 @@ namespace RedisOPCUA.Services
             _redis = redis;
             _hub = hub;
 
-            _chiaviDaMonitorare = IniReader.ReadRedisKeys(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "monitor.ini"));
+            _chiaviDaMonitorare = Ini.RedisKeys;
 
+            _logPath = Ini.RedisCsvFile;
 
-            // inizializza il percorso del file CSV
-            //_logPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "log_redis.csv");
-
-            _logPath = IniReader.ReadIniValue(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "monitor.ini"), "Redis", "CsvFile").Replace("<APP>", Path.Combine(Directory.GetCurrentDirectory()));
-
-            // inizializza il Dbase sqLite
-            GlobalFunction.InitDbaseRedis(ref connection, _chiaviDaMonitorare);
+          // inizializza il Dbase sqLite
+          GlobalFunction.InitDbaseRedis(ref connection, _chiaviDaMonitorare);
 
         }
 

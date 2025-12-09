@@ -13,11 +13,14 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddSignalR();
 
 
-var ini = AppSettings.Instance;
+Ini.Load("wwwroot\\monitor.ini"); ;
 
 
 // string connectionString = "localhost:6379"; // Modifica con il tuo indirizzo Redis se necessario
-string connectionStringRedis = IniReader.ReadIniValue(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "monitor.ini"), "Redis", "Address");
+//string connectionStringRedis = IniReader.ReadIniValue(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "monitor.ini"), "Redis", "Address");
+
+string connectionStringRedis = Ini.RedisAddress;
+
 
 // Connessione Redis come Singleton
 builder.Services.AddSingleton<ConnectionMultiplexer>(sp =>

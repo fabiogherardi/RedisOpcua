@@ -17,6 +17,8 @@ namespace RedisOPCUA.Controllers
         private readonly OpcUaMonitorService? _opcService;
         private readonly Session? _session;
 
+
+
         public HomeController(ConnectionMultiplexer? redis, OpcUaMonitorService? opcService)
         {
             _redis = redis;
@@ -24,11 +26,13 @@ namespace RedisOPCUA.Controllers
             _session = opcService?._session;
         }
 
+
+
         public async Task<IActionResult> Index()
         {
-            string iniPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "monitor.ini");
+         
 
-            var chiaviRedis = IniReader.ReadRedisKeys(iniPath);
+            var chiaviRedis =Ini.RedisKeys;
 
          
             // Valori Redis

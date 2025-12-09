@@ -27,8 +27,7 @@ namespace RedisOPCUA.Services
 
             _nodiDaMonitorare = new List<OpcUaNode>();
 
-            _logPath = IniReader.ReadIniValue(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "monitor.ini"),"ServerOPCUA", "CsvFile")
-                       .Replace("<APP>", Path.Combine(Directory.GetCurrentDirectory()));
+            _logPath = Ini.ServerOPCUACsvFile;
         }
 
         // ------------------------------------------------------------
@@ -48,9 +47,9 @@ namespace RedisOPCUA.Services
             _nodiDaMonitorare.Clear();
 
             // Legge nodi da file ini
-            var nodiDaIni = IniReader.ReadOpcuaNodeInfo(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "monitor.ini"));
+            //var nodiDaIni = IniReader.ReadOpcuaNodeInfo(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "monitor.ini"));
 
-
+            var nodiDaIni = Ini.OpcuaKeys;
 
             foreach (var nodo in nodiDaIni)
             {
@@ -147,9 +146,11 @@ namespace RedisOPCUA.Services
 
             await config.Validate(ApplicationType.Client);
 
-            string endpointURL = IniReader.ReadIniValue(
-                Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "monitor.ini"),
-                "ServerOPCUA", "Address");
+            //string endpointURL = IniReader.ReadIniValue(
+            //    Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "monitor.ini"),
+            //    "ServerOPCUA", "Address");
+
+            string endpointURL = Ini.ServerOPCUAAddress;
 
             var selectedEndpoint = CoreClientUtils.SelectEndpoint(config, endpointURL, false);
             var endpointConfiguration = EndpointConfiguration.Create(config);
