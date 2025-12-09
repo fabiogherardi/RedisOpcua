@@ -1,0 +1,4 @@
+# Escludi cartelle bin e obj
+RedisOPCUA/bin/
+RedisOPCUA/obj/
+.vs/

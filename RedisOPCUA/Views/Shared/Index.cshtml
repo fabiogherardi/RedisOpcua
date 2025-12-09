@@ -1,0 +1,59 @@
+﻿<head>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<div id="app" class="container">
+    <h2>Monitor valori</h2>
+
+    <div class="card">
+        <table class="styled-table">
+            <thead>
+                <tr>
+                    <th>Chiave</th>
+                    <th>Valore</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="key in chiavi" :key="key">
+                    <td>{{ key }}</td>
+                    <td>{{ valori[key] || '' }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="/js/vue.global.prod.js"></script>
+    <script src="/js/signalr.min.js"></script>
+
+    <script>
+        const chiavi = @Html.Raw(ViewData["ChiaviJson"]);
+        const valori = @Html.Raw(ViewData["ValoriJson"]);
+
+        const app = Vue.createApp({
+            data() {
+                return {
+                    chiavi: chiavi,
+                    valori: valori
+                }
+            },
+            mounted() {
+                const connection = new signalR.HubConnectionBuilder()
+                    .withUrl("/DataHub")
+                    .withAutomaticReconnect()
+                    .build();
+
+                // Riceve aggiornamenti dal server con DisplayName come chiave
+                connection.on("fieldChanged", (data) => {
+                    console.log("Aggiornamento ricevuto:", data);
+                    this.valori[data.chiave] = data.valore;
+                });
+
+                connection.start();
+            }
+        });
+
+        app.mount('#app');
+    </script>
+}

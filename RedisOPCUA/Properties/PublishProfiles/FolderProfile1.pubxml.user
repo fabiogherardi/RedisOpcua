@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- https://go.microsoft.com/fwlink/?LinkID=208121. -->
+<Project>
+  <PropertyGroup>
+    <_PublishTargetUrl>C:\TempLav\777777\RedisOPCUA\RedisOPCUA\bin\Release\net8.0\publish\</_PublishTargetUrl>
+    <History>True|2025-12-02T15:40:00.3826097Z||;True|2025-12-02T16:24:26.2070299+01:00||;True|2025-12-02T16:12:46.2770000+01:00||;True|2025-12-02T16:09:15.5363834+01:00||;True|2025-12-02T15:31:10.0785167+01:00||;True|2025-12-02T15:16:16.9562936+01:00||;True|2025-12-02T14:21:59.0458601+01:00||;True|2025-12-02T14:21:26.2065687+01:00||;True|2025-12-02T12:36:51.9250193+01:00||;</History>
+    <LastFailureDetails />
+  </PropertyGroup>
+</Project>

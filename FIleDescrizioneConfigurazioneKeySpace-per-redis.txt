@@ -1,0 +1,20 @@
+Per abilitare Redis a comunicare i KEYSPACE event , va aggiunto nel file .conf la seguente linea :
+
+notify-keyspace-events KEA
+
+
+I file di configurazione di solito sono 2 : 
+
+redis.windows.conf
+redis.windows-service.conf
+
+e di solito si trovano in C:\Program Files\Redis\
+
+( il redis.windows-service.confè utilizzato quando redis-server viene avviato in automatico come servizio
+mentre  redis.windows.conf  quando il file redis-server.exe viene lanciato da prompt dei comandi )
+
+per capire se è avviato come servizio basta guardare i servizi di windows e capire se è inserito li
+
+
+
+
