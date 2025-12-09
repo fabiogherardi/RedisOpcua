@@ -10,17 +10,15 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddSignalR();
 
-
+// Carica ini
 Ini.Load("wwwroot\\monitor.ini"); ;
 
-
-// string connectionString = "localhost:6379"; // Modifica con il tuo indirizzo Redis se necessario
-//string connectionStringRedis = IniReader.ReadIniValue(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "monitor.ini"), "Redis", "Address");
-
+//----------------------------
+// Abilita servizi Opcua
+//----------------------------
 string connectionStringRedis = Ini.RedisAddress;
 
 
-// Connessione Redis come Singleton
 builder.Services.AddSingleton<ConnectionMultiplexer>(sp =>
     ConnectionMultiplexer.Connect(connectionStringRedis)  // locahost:6379 è inidirizzo e porta di default di Redis
 );
@@ -28,14 +26,18 @@ builder.Services.AddSingleton<ConnectionMultiplexer>(sp =>
 // Hosted Service che ascolta Redis e invia dati via SignalR
 builder.Services.AddHostedService<RedisMonitorService>();
 
-
+//----------------------------
 // Abilita servizi Opcua
-
-// OPC UA service che ascola OPC UA e invia dati via SignalR
+//----------------------------
 builder.Services.AddSingleton<OpcUaMonitorService>();
 builder.Services.AddHostedService(provider => provider.GetRequiredService<OpcUaMonitorService>());
 
 
+
+
+//----------------------------
+// Servizi vari
+//----------------------------
 builder.WebHost.UseUrls("http://localhost:5053", "https://localhost:7135");
 
 var app = builder.Build();
