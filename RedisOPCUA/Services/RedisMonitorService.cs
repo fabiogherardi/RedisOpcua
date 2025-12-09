@@ -29,7 +29,7 @@ namespace RedisOPCUA.Services
             _logPath = Ini.RedisCsvFile;
 
           // inizializza il Dbase sqLite
-          GlobalFunction.InitDbaseRedis(ref connection, _chiaviDaMonitorare);
+          GlobalFunction.InitDbaseRedis(ref connection,Ini.RedisDBaseFile, _chiaviDaMonitorare);
 
         }
 

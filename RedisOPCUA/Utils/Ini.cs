@@ -16,10 +16,12 @@
         // [ServerOPCUA]
         public static string ServerOPCUAAddress { get; private set; }
         public static string ServerOPCUACsvFile { get; private set; }
+        public static string ServerOPCUADbaseFile { get; private set; }
 
         // [Redis]
         public static string RedisAddress { get; private set; }
         public static string RedisCsvFile { get; private set; }
+        public static string RedisDBaseFile { get; private set; }
 
         // Liste
         public static List<string> RedisKeys { get; private set; } = new();
@@ -70,11 +72,13 @@
                     case "SERVEROPCUA":
                         if (key.Equals("Address", StringComparison.OrdinalIgnoreCase)) ServerOPCUAAddress = value;
                         if (key.Equals("CsvFile", StringComparison.OrdinalIgnoreCase)) ServerOPCUACsvFile = value;
+                        if (key.Equals("DBaseFile", StringComparison.OrdinalIgnoreCase)) ServerOPCUADbaseFile = value;
                         break;
 
                     case "REDIS":
                         if (key.Equals("Address", StringComparison.OrdinalIgnoreCase)) RedisAddress = value;
                         if (key.Equals("CsvFile", StringComparison.OrdinalIgnoreCase)) RedisCsvFile = value;
+                        if (key.Equals("DBaseFile", StringComparison.OrdinalIgnoreCase)) RedisDBaseFile = value;
                         break;
 
                     case "REDISKEYS":

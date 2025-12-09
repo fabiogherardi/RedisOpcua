@@ -14,11 +14,8 @@ namespace RedisOPCUA.Utils
     public static class GlobalFunction
     {
         // Inizializza il database SQLite con le colonne dinamiche
-        public static void InitDbaseRedis(ref SqliteConnection connection, List<string> _chiaviDaMonitorare)
+        public static void InitDbaseRedis(ref SqliteConnection connection, string sqlitePath, List<string> _chiaviDaMonitorare)
         {
-            string _sqlitePath = "";
-
-            _sqlitePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "data.sqlite");
 
 
             var sb = new StringBuilder();
@@ -31,7 +28,7 @@ namespace RedisOPCUA.Utils
             }
             sb.Append(");");
 
-            connection = new SqliteConnection($"Data Source={_sqlitePath}");
+            connection = new SqliteConnection($"Data Source={sqlitePath}");
             connection.Open();
             var cmd = connection.CreateCommand();
             cmd.CommandText = sb.ToString();
@@ -39,9 +36,9 @@ namespace RedisOPCUA.Utils
         }
 
 
-        public static void InitDbaseOpcua(ref SqliteConnection connection, List<OpcUaNode> nodiDaMonitorare)
+        public static void InitDbaseOpcua(ref SqliteConnection connection, string sqlitePath, List<OpcUaNode> nodiDaMonitorare)
         {
-            string sqlitePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "data.sqlite");
+           
 
             var sb = new StringBuilder();
             sb.Append("CREATE TABLE IF NOT EXISTS OpcUaSnapshot (Timestamp TEXT");

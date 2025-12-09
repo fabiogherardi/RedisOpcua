@@ -92,7 +92,7 @@ namespace RedisOPCUA.Services
             }
 
             // Inizializza il DB con i DisplayName
-            GlobalFunction.InitDbaseOpcua(ref connection, _nodiDaMonitorare);
+            GlobalFunction.InitDbaseOpcua(ref connection,Ini.ServerOPCUADbaseFile, _nodiDaMonitorare);
 
             await base.StartAsync(cancellationToken);
         }
