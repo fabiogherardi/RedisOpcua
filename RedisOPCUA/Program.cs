@@ -5,8 +5,6 @@ using RedisOPCUA.Hubs;
 using RedisOPCUA.Utils;
 
 
-
-
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();

@@ -2,3 +2,6 @@
 RedisOPCUA/bin/
 RedisOPCUA/obj/
 .vs/
+/RedisOPCUA/wwwroot/data.sqlite
+/RedisOPCUA/wwwroot/LOG_OPCUA.csv
+/RedisOPCUA/wwwroot/LOG_OPCUA.csv
