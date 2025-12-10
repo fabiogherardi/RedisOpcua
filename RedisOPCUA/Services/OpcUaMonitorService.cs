@@ -30,6 +30,8 @@ namespace RedisOPCUA.Services
             _logPath = Ini.ServerOPCUACsvFile;
         }
 
+
+
         // ------------------------------------------------------------
         //  Connessione + namespace + inizializzazione DB
         // ------------------------------------------------------------
@@ -58,37 +60,27 @@ namespace RedisOPCUA.Services
                 // Controlla se il nodo è già in formato completo
                 if (nodo.Uri.StartsWith("ns="))
                 {
-
                     nsIndex = -1;
                     nodeIdFull = $"{nodo.Uri};{nodo.NodeId}";
-
-                    displayName = GetDisplayName(_session, nodeIdFull);
-
-                    // Nodo già in formato completo
-                    _nodiDaMonitorare.Add(new OpcUaNode
-                    {
-                        Uri = nodo.Uri,
-                        NodeId = nodo.NodeId,
-                        NodeIdFull = nodeIdFull,
-                        DisplayName = displayName
-                    });                 
                 }
                 // Nodo in formato abbreviato, risolve namespace
                 else
                 {
                     nsIndex = _session.NamespaceUris.GetIndex(nodo.Uri);
-                    nodeIdFull = $"ns={nsIndex};{nodo.NodeId}";
-
-                    displayName = GetDisplayName(_session, nodeIdFull);
-
-                    _nodiDaMonitorare.Add(new OpcUaNode
-                    {
-                        Uri = nodo.Uri,
-                        NodeId = nodo.NodeId,
-                        NodeIdFull = nodeIdFull,
-                        DisplayName = displayName
-                    });
+                    nodeIdFull = $"ns={nsIndex};{nodo.NodeId}";                 
                 }
+
+
+                displayName = GetDisplayName(_session, nodeIdFull);
+
+                // Nodo già in formato completo
+                _nodiDaMonitorare.Add(new OpcUaNode
+                {
+                    Uri = nodo.Uri,
+                    NodeId = nodo.NodeId,
+                    NodeIdFull = nodeIdFull,
+                    DisplayName = displayName
+                });
             }
 
             // Inizializza il DB con i DisplayName
@@ -100,7 +92,7 @@ namespace RedisOPCUA.Services
         // ------------------------------------------------------------
         //  Connessione OPC UA
         // ------------------------------------------------------------
-        private async Task ConnettiAlServerOpcUa()
+        public async Task ConnettiAlServerOpcUa()
         {
             var basePki = Path.Combine(Directory.GetCurrentDirectory(), "pki");
 
@@ -144,11 +136,8 @@ namespace RedisOPCUA.Services
             Directory.CreateDirectory(Path.Combine(basePki, "trusted"));
             Directory.CreateDirectory(Path.Combine(basePki, "rejected"));
 
-            await config.Validate(ApplicationType.Client);
+            await config.ValidateAsync(ApplicationType.Client);
 
-            //string endpointURL = IniReader.ReadIniValue(
-            //    Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "monitor.ini"),
-            //    "ServerOPCUA", "Address");
 
             string endpointURL = Ini.ServerOPCUAAddress;
 
@@ -243,6 +232,7 @@ namespace RedisOPCUA.Services
                 nodesToRead,
                 out DataValueCollection results,
                 out DiagnosticInfoCollection diag);
+
 
             if (results.Count > 0 && results[0].Value is LocalizedText lt)
                 return lt.Text;

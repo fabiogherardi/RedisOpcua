@@ -20,11 +20,13 @@ string connectionStringRedis = Ini.RedisAddress;
 
 
 builder.Services.AddSingleton<ConnectionMultiplexer>(sp =>
-    ConnectionMultiplexer.Connect(connectionStringRedis)  // locahost:6379 è inidirizzo e porta di default di Redis
+    ConnectionMultiplexer.Connect(connectionStringRedis)            // locahost:6379 è inidirizzo e porta di default di Redis
 );
-
 // Hosted Service che ascolta Redis e invia dati via SignalR
 builder.Services.AddHostedService<RedisMonitorService>();
+
+
+
 
 //----------------------------
 // Abilita servizi Opcua

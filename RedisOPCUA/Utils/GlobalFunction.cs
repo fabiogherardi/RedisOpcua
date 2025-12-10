@@ -9,20 +9,17 @@ using RedisOPCUA.Models;
 
 namespace RedisOPCUA.Utils
 {
-
-    
     public static class GlobalFunction
     {
         // Inizializza il database SQLite con le colonne dinamiche
-        public static void InitDbaseRedis(ref SqliteConnection connection, string sqlitePath, List<string> _chiaviDaMonitorare)
+        public static void InitDbaseRedis(ref SqliteConnection connection, string sqlitePath, List<string> chiaviDaMonitorare)
         {
-
 
             var sb = new StringBuilder();
             sb.Append("CREATE TABLE IF NOT EXISTS RedisSnapshot (Timestamp TEXT");
 
             // aggiungi colonne per ogni chiave
-            foreach (var chiave in _chiaviDaMonitorare)
+            foreach (var chiave in chiaviDaMonitorare)
             {
                 sb.Append($", [{chiave}] TEXT");
             }
@@ -61,7 +58,7 @@ namespace RedisOPCUA.Utils
 
 
         // Scrive i valori delle chiavi monitorate in un file CSV
-        public static void ScriviCsvRedis(string _logPath, ConnectionMultiplexer _redis, List<string> _chiaviDaMonitorare)
+        public static void ScriviCsvRedis(string logPath, ConnectionMultiplexer redis, List<string> chiaviDaMonitorare)
         {
             try
             {
@@ -70,17 +67,15 @@ namespace RedisOPCUA.Utils
                 var chiaveValore = new List<string>(); ;
 
                 string Linea = $"{DateTime.Now:yyyy-MM-dd HH:mm:ss}   ;   ";
-                //csvLines.Add("Data/Ora,Chiave,Valore"); // intestazione
+              
 
          
 
-                foreach (var chiave in _chiaviDaMonitorare)
+                foreach (var chiave in chiaviDaMonitorare)
                 {
-                    var val = _redis.GetDatabase().StringGet(chiave);
+                    var val = redis.GetDatabase().StringGet(chiave);
                  
                     Linea += $"{chiave}   =   {val}   ;   ";
-
-                    // ChiaveValore.Add($"{DateTime.Now:yyyy-MM-dd HH:mm:ss},{chiave},{val}");
                 }
 
                 chiaveValore.Add(Linea);
@@ -89,9 +84,9 @@ namespace RedisOPCUA.Utils
 
                 // Controlla se il file esiste e se l'ultima riga è uguale
                 bool scrivi = true;
-                if (File.Exists(_logPath))
+                if (File.Exists(logPath))
                 {
-                    var tutteLeRighe = File.ReadAllLines(_logPath);
+                    var tutteLeRighe = File.ReadAllLines(logPath);
                     if (tutteLeRighe.Length > 0)
                     {
                         string ultimaRiga = tutteLeRighe.Last();
@@ -104,7 +99,7 @@ namespace RedisOPCUA.Utils
 
                 if (scrivi)
                 {
-                    File.AppendAllText(_logPath, line);
+                    File.AppendAllText(logPath, line);
                 }
             }
             catch (Exception ex)
@@ -114,7 +109,7 @@ namespace RedisOPCUA.Utils
         }
 
 
-        // Scrive i valori dei nodi monitorati in un file CSV
+      
         // Scrive i valori dei nodi monitorati in un file CSV
         public static void ScriviCsvOpcUa(string logPath, Session session, List<OpcUaNode> nodiDaMonitorare)
         {

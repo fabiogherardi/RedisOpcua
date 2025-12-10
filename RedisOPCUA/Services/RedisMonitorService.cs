@@ -24,8 +24,8 @@ namespace RedisOPCUA.Services
             _redis = redis;
             _hub = hub;
 
-            _chiaviDaMonitorare = Ini.RedisKeys;
 
+            _chiaviDaMonitorare = Ini.RedisKeys;
             _logPath = Ini.RedisCsvFile;
 
           // inizializza il Dbase sqLite
